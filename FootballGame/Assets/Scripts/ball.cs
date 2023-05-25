@@ -12,7 +12,7 @@ public class ball : MonoBehaviour
 
     void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.name == "Cylinder")
+        if (collision.gameObject.name == "Player")
         {
             print("You lose!");
         }
