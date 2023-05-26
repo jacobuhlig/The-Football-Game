@@ -11,7 +11,7 @@ public class PlayerController : MonoBehaviour
     public float _speed;
 
     private Animator _animator;
-    private Rigidbody _rigidbody;
+    public Rigidbody _rigidbody;
 
     private bool _running;
     private float _horizontalInput;
@@ -20,7 +20,7 @@ public class PlayerController : MonoBehaviour
     //Restricting the confines of the playable area
     private float _xStart = 20;
     private float _xEnd = -21;
-    private float _zStart = 14;
+    private float _zStart = 10;
     private float _zEnd = -14;
 
     void Start()
@@ -60,4 +60,13 @@ public class PlayerController : MonoBehaviour
             _animator.SetBool("Running", false);
         }
     }
+
+    void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.name == "Character")
+        {
+            print("You died!");
+        }
+    }
+
 }
