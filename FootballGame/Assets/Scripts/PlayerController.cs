@@ -30,7 +30,6 @@ public class PlayerController : MonoBehaviour
         _running = false;
     }
 
-
     void FixedUpdate()
     {
         _horizontalInput = Input.GetAxis("Horizontal");
@@ -60,13 +59,4 @@ public class PlayerController : MonoBehaviour
             _animator.SetBool("Running", false);
         }
     }
-
-    void OnCollisionEnter(Collision collision)
-    {
-        if (collision.gameObject.name == "Character")
-        {
-            print("You died!");
-        }
-    }
-
 }

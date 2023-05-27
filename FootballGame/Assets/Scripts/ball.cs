@@ -41,7 +41,9 @@ public class Ball : MonoBehaviour
         if (!_OutOfBounds)
         {
             CheckGoalOrOutOfBounds(_xLimitHome, _zStartHome, _zEndHome, "You scored! For the other team, idiot!", true);
+            Debug.Log("Before CheckGoalOrOutOfBounds");
             CheckGoalOrOutOfBounds(_xLimitOut, _zStartOut, _zEndOut, "You scored!", false);
+            Debug.Log("After CheckGoalOrOutOfBounds");
             CheckOutOfBounds();
         }
     }
@@ -52,9 +54,13 @@ public class Ball : MonoBehaviour
         {
             if (ball_Rigidbody.position.z > zStart && ball_Rigidbody.position.z < zEnd)
             {
+                Debug.Log("Before Print message");
                 print(message);
+                Debug.Log("After Print message and before assigning");
                 textMeshPro.text = message;
-                audioSource.Play();
+                Debug.Log(textMeshPro.text);
+                AudioSource.PlayClipAtPoint(goalClip, transform.position);
+                Debug.Log("After Play");
                 StartCoroutine(ResetSceneAfterDelay(3));
             }
             else
@@ -84,13 +90,5 @@ public class Ball : MonoBehaviour
     {
         yield return new WaitForSeconds(seconds);
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
-    }
-
-    void OnCollisionEnter(Collision collision)
-    {
-        if (collision.gameObject.name == "Player")
-        {
-            print("Player in contact with ball!");
-        }
     }
 }

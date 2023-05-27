@@ -7,18 +7,19 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
 
-    // Reference to the prefab
+    public AudioSource audioSource;
+    public AudioClip whistleClip;
+
+    // References to the prefab
     public GameObject sceneTextPrefab;
     private TextMeshProUGUI sceneText;
     private WaitForSeconds waitForSeconds = new WaitForSeconds(3);
 
-    public AudioSource audioSource;
-    public AudioClip whistleClip;
-
-    public GameObject timerTextPrefab; // Assign in Inspector
+    public GameObject timerTextPrefab;
     private TextMeshProUGUI timerText;
-    private GameObject timerInstance; // keep track of the instance
+    private GameObject timerInstance;
     private float levelStartTime;
+
 
     private void Awake()
     {
@@ -49,42 +50,33 @@ public class GameManager : MonoBehaviour
 
     void SetupIntroductionToLevel(Scene scene)
     {
-        // Instantiate the sceneTextPrefab and get the reference to the TextMeshProUGUI component
         GameObject instance = Instantiate(sceneTextPrefab);
 
         sceneText = instance.GetComponentInChildren<TextMeshProUGUI>();
 
-        // Make sure the instantiated prefab doesn't get destroyed when loading a new scene
         DontDestroyOnLoad(instance);
 
-        // Display the scene name
         sceneText.text = scene.name.Replace('_', ' ');
 
-        // Start the coroutine to clear the text after 3 seconds
         StartCoroutine(ClearSceneTextAfterDelay());
     }
 
     void SetupTimer()
     {
-        // Play the whistle sound
         audioSource.clip = whistleClip;
         audioSource.Play();
 
-        // Destroy the old timer instance if it exists
         if (timerInstance != null)
         {
             Destroy(timerInstance);
         }
 
-        // Instantiate a new timer instance
         timerInstance = Instantiate(timerTextPrefab);
         timerText = timerInstance.GetComponentInChildren<TextMeshProUGUI>();
         DontDestroyOnLoad(timerInstance);
 
-        // Reset the start time
         levelStartTime = Time.time;
     }
-
 
     IEnumerator ClearSceneTextAfterDelay()
     {
@@ -114,7 +106,6 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    // Unsubscribe when the game object is destroyed
     private void OnDestroy()
     {
         SceneManager.sceneLoaded -= OnSceneLoaded;
